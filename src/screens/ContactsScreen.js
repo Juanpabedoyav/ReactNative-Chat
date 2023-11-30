@@ -11,7 +11,9 @@ const ContactsScreen = () => {
   }, [])
 
   async function getContacts() {
-    const result = await API.graphql(graphqlOperation(listUsers))
+    const result = await API.graphql({
+      query: listUsers
+    })
     setContacts(result.data.listUsers.items)
   }
 
