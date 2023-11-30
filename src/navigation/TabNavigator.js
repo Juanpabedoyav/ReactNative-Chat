@@ -9,12 +9,13 @@ const TabNavigator = () => {
       <Tab.Screen
         name='Chats'
         component={ChatsScreen}
-        options={{
+        options={({ navigation }) => ({
           tabBarIcon: ({ color, size }) => (
             <Ionicons name='chatbox-outline' size={size} color={color} />
           ),
           headerRight: () => (
             <Entypo
+              onPress={() => navigation.navigate("Contacts")}
               name='new-message'
               size={20}
               color='black'
@@ -23,7 +24,7 @@ const TabNavigator = () => {
               }}
             />
           )
-        }}
+        })}
       />
       <Tab.Screen
         name='Calls'
