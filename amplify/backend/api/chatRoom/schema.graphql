@@ -1,0 +1,22 @@
+type Room @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Messages: [Message] @hasMany(indexName: "byRoom", fields: ["id"])
+  users: [User] @manyToMany(relationName: "UserRoom")
+  LastMessage: Message @hasOne
+}
+
+type Message @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  text: String!
+  roomID: ID! @index(name: "byRoom")
+  userID: ID! @index(name: "byUser")
+}
+
+type User @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String!
+  status: String
+  image: String
+  Messages: [Message] @hasMany(indexName: "byUser", fields: ["id"])
+  Rooms: [Room] @manyToMany(relationName: "UserRoom")
+}
