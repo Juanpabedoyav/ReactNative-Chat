@@ -12,7 +12,7 @@ export const Messages = ({ message }) => {
       style={[
         styles.container,
         {
-          backgroundColor: myMessage() ? "#DCF8C5" : "white",
+          backgroundColor: myMessage() ? "#DCF8" : "white",
           alignSelf: myMessage() ? "flex-end" : "flex-start"
         }
       ]}
