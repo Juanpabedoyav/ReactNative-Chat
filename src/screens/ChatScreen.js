@@ -1,4 +1,4 @@
-import { Messages } from "../Messages"
+import { Messages } from "../components/Messages"
 import {
   ImageBackground,
   StyleSheet,
@@ -6,9 +6,9 @@ import {
   KeyboardAvoidingView,
   Platform
 } from "react-native"
-import bg from "../../../assets/images/BG.png"
-import messagesData from "../../../assets/data/messages"
-import { InputBox } from "../InputBox"
+import bg from "../../assets/images/BG.png"
+import messagesData from "../../assets/data/messages"
+import { InputBox } from "../components/InputBox"
 const ChatScreen = () => {
   return (
     <KeyboardAvoidingView
@@ -33,6 +33,5 @@ export default ChatScreen
 const styles = StyleSheet.create({
   bg: {
     flex: 1
-  },
-  list: {}
+  }
 })
