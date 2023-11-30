@@ -6,7 +6,14 @@ const ChatsScreen = () => {
     <View>
       <FlatList
         data={chats}
-        renderItem={({ item }) => <ChatList chat={item} />}
+        renderItem={({ item }) => (
+          <ChatList
+            chat={item}
+            style={{
+              backgroundColor: "white"
+            }}
+          />
+        )}
       />
     </View>
   )
