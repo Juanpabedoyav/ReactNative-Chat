@@ -1,7 +1,12 @@
 import { StatusBar } from "expo-status-bar"
 import { StyleSheet, View } from "react-native"
 import { Navigator } from "./src/navigation"
-export default function App() {
+import { withAuthenticator } from "aws-amplify-react-native"
+import { Amplify } from "aws-amplify"
+import configAws from "./src/aws-exports"
+
+Amplify.configure(configAws)
+function App() {
   return (
     <View style={styles.container}>
       <Navigator />
@@ -17,3 +22,5 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   }
 })
+
+export default withAuthenticator(App)
