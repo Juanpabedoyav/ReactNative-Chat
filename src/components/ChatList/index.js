@@ -5,6 +5,7 @@ import relativeTime from "dayjs/plugin/relativeTime"
 dayjs.extend(relativeTime)
 export default function ChatList({ chat }) {
   const navigation = useNavigation()
+
   return (
     <Pressable
       onPress={() =>

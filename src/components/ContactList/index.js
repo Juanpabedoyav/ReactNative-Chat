@@ -1,10 +1,40 @@
 import { Text, View, Image, StyleSheet, Pressable } from "react-native"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
+import { useNavigation } from "@react-navigation/native"
+import { API } from "aws-amplify"
+import { createRoom, createUserRoom } from "../../graphql/mutations"
 dayjs.extend(relativeTime)
 export default function ContactList({ user }) {
+  const navigation = useNavigation()
+  const onPress = async () => {
+    console.warn("Pressed")
+
+    const newChatRoomData = await API.graphql({
+      query: createRoom,
+      variables: { input: {} }
+    })
+
+    if (!newChatRoomData.data.createRoom) {
+      console.log("Failed to create a chat room")
+      return
+    }
+
+    const newChatRoom = newChatRoomData.data.createRoom
+    await API.graphql({
+      query: createUserRoom,
+      variables: {
+        input: {
+          userId: user.id,
+          roomId: newChatRoom.id
+        }
+      }
+    })
+    navigation.navigate("Chat", { id: newChatRoom.id })
+  }
+
   return (
-    <View style={styles.container}>
+    <Pressable onPress={onPress} style={styles.container}>
       <Image
         source={{
           uri: user.image
@@ -21,7 +51,7 @@ export default function ContactList({ user }) {
           {user.status}
         </Text>
       </View>
-    </View>
+    </Pressable>
   )
 }
 
