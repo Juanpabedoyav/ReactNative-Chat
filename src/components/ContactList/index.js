@@ -16,7 +16,6 @@ export default function ContactList({ user }) {
     })
 
     if (!newChatRoomData.data.createRoom) {
-      console.log("Failed to create a chat room")
       return
     }
 

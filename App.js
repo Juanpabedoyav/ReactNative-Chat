@@ -19,7 +19,6 @@ function App() {
         variables: { id: authUser.attributes.sub }
       })
       if (user.data.getUser) {
-        console.log("user exist", user.data.getUser)
         return
       }
       const newUser = {
