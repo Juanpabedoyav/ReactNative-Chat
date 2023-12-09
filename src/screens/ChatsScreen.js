@@ -19,17 +19,19 @@ const ChatsScreen = () => {
   }, [])
 
   return (
-    <FlatList
-      data={chatsRoom}
-      renderItem={({ item }) => (
-        <ChatList
-          chat={item.room}
-          style={{
-            backgroundColor: "white"
-          }}
-        />
-      )}
-    />
+    <View>
+      <FlatList
+        data={chatsRoom}
+        renderItem={({ item }) => (
+          <ChatList
+            chat={item.room}
+            style={{
+              backgroundColor: "white"
+            }}
+          />
+        )}
+      />
+    </View>
   )
 }
 

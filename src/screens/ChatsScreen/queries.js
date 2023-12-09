@@ -6,6 +6,7 @@ export const listChatsRoom = /* GraphQL */ `
         items {
           id
           room {
+            id
             LastMessage {
               id
               text

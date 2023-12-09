@@ -5,8 +5,10 @@ import relativeTime from "dayjs/plugin/relativeTime"
 dayjs.extend(relativeTime)
 export default function ChatList({ chat }) {
   const navigation = useNavigation()
+
+  //loop through the users array and get the user that is not the current user
   const user = chat?.users.items[0].user
-  console.log(user)
+
   return (
     <Pressable
       onPress={() =>

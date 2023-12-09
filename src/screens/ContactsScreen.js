@@ -1,7 +1,7 @@
 import { FlatList } from "react-native"
 import ContactList from "../components/ContactList"
 import { useEffect, useState } from "react"
-import { API, graphqlOperation } from "aws-amplify"
+import { API } from "aws-amplify"
 import { listUsers } from "../graphql/queries"
 const ContactsScreen = () => {
   const [contacts, setContacts] = useState([])
