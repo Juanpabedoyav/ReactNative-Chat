@@ -2,10 +2,25 @@ import { useState } from "react"
 import { StyleSheet, TextInput } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { AntDesign, MaterialIcons } from "@expo/vector-icons"
-export const InputBox = () => {
+import { API, Auth } from "aws-amplify"
+import { createMessage } from "../../graphql/mutations"
+export const InputBox = ({ roomID }) => {
   const [newMessage, setNewMessage] = useState("")
 
-  const onSend = () => {
+  const onSend = async () => {
+    console.warn("sending:", newMessage)
+    const authUser = await Auth.currentAuthenticatedUser()
+    const message = {
+      roomID,
+      userID: authUser.attributes.sub,
+      text: newMessage
+    }
+
+    await API.graphql({
+      query: createMessage,
+      variables: { input: message }
+    })
+
     setNewMessage("")
   }
   return (

@@ -14,6 +14,9 @@ import { useEffect } from "react"
 const ChatScreen = () => {
   const route = useRoute()
   const navigation = useNavigation()
+
+  const roomID = route.params.id
+
   useEffect(() => {
     navigation.setOptions({ title: route.params.name })
   }, [route.params.name])
@@ -31,7 +34,7 @@ const ChatScreen = () => {
           style={styles.list}
           inverted
         />
-        <InputBox />
+        <InputBox roomID={roomID} />
       </ImageBackground>
     </KeyboardAvoidingView>
   )

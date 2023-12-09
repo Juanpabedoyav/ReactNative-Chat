@@ -27,7 +27,7 @@ const TabNavigator = () => {
           )
         })}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name='Calls'
         component={NoFound}
         options={{
@@ -35,8 +35,8 @@ const TabNavigator = () => {
             <Ionicons name='call-outline' size={size} color={color} />
           )
         }}
-      />
-      <Tab.Screen
+      /> */}
+      {/* <Tab.Screen
         name='Camera'
         component={NoFound}
         options={{
@@ -44,7 +44,7 @@ const TabNavigator = () => {
             <Ionicons name='camera-outline' size={size} color={color} />
           )
         }}
-      />
+      /> */}
       <Tab.Screen
         name='Settings'
         component={SettingsScreen}
