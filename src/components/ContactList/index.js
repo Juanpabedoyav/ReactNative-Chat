@@ -24,8 +24,8 @@ export default function ContactList({ user }) {
     if (!newChatRoomData.data.createRoom) {
       return
     }
-    console.log(user.id, "user id")
-    console.log(newChatRoomData.data.createRoom, "new chat room data id")
+    // console.log(user.id, "user id")
+    // console.log(newChatRoomData.data.createRoom, "new chat room data id")
     const newChatRoom = newChatRoomData.data.createRoom
 
     await API.graphql({
@@ -49,7 +49,7 @@ export default function ContactList({ user }) {
       }
     })
 
-    console.log(newChatRoom.id, "new chat room id")
+    // console.log(newChatRoom.id, "new chat room id")
     navigation.navigate("Chat", { id: newChatRoom.id })
   }
   return (

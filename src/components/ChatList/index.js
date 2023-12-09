@@ -6,7 +6,6 @@ import { useEffect, useState } from "react"
 import { Auth } from "aws-amplify"
 dayjs.extend(relativeTime)
 export default function ChatList({ chat }) {
-  console.log(chat)
   const navigation = useNavigation()
   const [user, setUser] = useState(null)
 
@@ -16,11 +15,11 @@ export default function ChatList({ chat }) {
       const userItem = chat.users.items.find(
         (item) => item.user.id !== authUser.attributes.sub
       )
+      // console.log(userItem)
       setUser(userItem.user)
     }
     getUser()
   }, [])
-  //loop through the users array and get the user that is not the current use
 
   return (
     <Pressable
