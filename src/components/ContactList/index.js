@@ -4,21 +4,28 @@ import relativeTime from "dayjs/plugin/relativeTime"
 import { useNavigation } from "@react-navigation/native"
 import { API } from "aws-amplify"
 import { createRoom, createUserRoom } from "../../graphql/mutations"
+import { getCurrentChatRoomWithUser } from "../../utils/chatRoom"
+
 dayjs.extend(relativeTime)
 export default function ContactList({ user }) {
   const navigation = useNavigation()
   const onPress = async () => {
-    console.warn("Pressed")
-
+    //check if a chat room already exists between the two users
+    const existingChatRoom = await getCurrentChatRoomWithUser(user.id)
+    if (existingChatRoom) {
+      navigation.navigate("Chat", { id: existingChatRoom.id })
+      console.log(existingChatRoom.id, "exist")
+      return
+    }
     const newChatRoomData = await API.graphql({
       query: createRoom,
       variables: { input: {} }
     })
-
     if (!newChatRoomData.data.createRoom) {
       return
     }
-
+    console.log(user.id, "user id")
+    console.log(newChatRoomData.data.createRoom, "new chat room data id")
     const newChatRoom = newChatRoomData.data.createRoom
     await API.graphql({
       query: createUserRoom,
@@ -29,9 +36,9 @@ export default function ContactList({ user }) {
         }
       }
     })
+    console.log(newChatRoom.id, "new chat room id")
     navigation.navigate("Chat", { id: newChatRoom.id })
   }
-
   return (
     <Pressable onPress={onPress} style={styles.container}>
       <Image

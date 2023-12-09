@@ -2,12 +2,25 @@ import { Text, View, Image, StyleSheet, Pressable } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
+import { useEffect, useState } from "react"
+import { Auth } from "aws-amplify"
 dayjs.extend(relativeTime)
 export default function ChatList({ chat }) {
+  console.log(chat)
   const navigation = useNavigation()
+  const [user, setUser] = useState(null)
 
+  useEffect(() => {
+    const getUser = async () => {
+      const authUser = await Auth.currentAuthenticatedUser()
+      const userItem = chat.users.items.find(
+        (item) => item.user.id !== authUser.attributes.sub
+      )
+      setUser(userItem.user)
+    }
+    getUser()
+  }, [])
   //loop through the users array and get the user that is not the current user
-  const user = chat?.users.items[0].user
 
   return (
     <Pressable
