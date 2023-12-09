@@ -2,7 +2,7 @@ import { Text, View, Image, StyleSheet, Pressable } from "react-native"
 import dayjs from "dayjs"
 import relativeTime from "dayjs/plugin/relativeTime"
 import { useNavigation } from "@react-navigation/native"
-import { API } from "aws-amplify"
+import { API, Auth } from "aws-amplify"
 import { createRoom, createUserRoom } from "../../graphql/mutations"
 import { getCurrentChatRoomWithUser } from "../../utils/chatRoom"
 
@@ -27,6 +27,7 @@ export default function ContactList({ user }) {
     console.log(user.id, "user id")
     console.log(newChatRoomData.data.createRoom, "new chat room data id")
     const newChatRoom = newChatRoomData.data.createRoom
+
     await API.graphql({
       query: createUserRoom,
       variables: {
@@ -36,6 +37,18 @@ export default function ContactList({ user }) {
         }
       }
     })
+
+    const authUser = await Auth.currentAuthenticatedUser()
+    await API.graphql({
+      query: createUserRoom,
+      variables: {
+        input: {
+          userId: authUser.attributes.sub,
+          roomId: newChatRoom.id
+        }
+      }
+    })
+
     console.log(newChatRoom.id, "new chat room id")
     navigation.navigate("Chat", { id: newChatRoom.id })
   }

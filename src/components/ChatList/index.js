@@ -20,7 +20,7 @@ export default function ChatList({ chat }) {
     }
     getUser()
   }, [])
-  //loop through the users array and get the user that is not the current user
+  //loop through the users array and get the user that is not the current use
 
   return (
     <Pressable
