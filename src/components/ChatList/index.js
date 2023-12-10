@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
     marginHorizontal: 10,
     marginVertical: 5,
+    paddingVertical: 5,
     height: 70
   },
   content: {

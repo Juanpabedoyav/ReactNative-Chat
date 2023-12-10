@@ -56,16 +56,17 @@ const AddContacts = () => {
           style={styles.input}
           placeholder='Enter a phone number'
         />
-        <Text style={styles.label}>Email</Text>
+        {/* <Text style={styles.label}>Email</Text>
         <TextInput
           value={email}
           onChangeText={setEmail}
           style={styles.input}
           placeholder='Enter an email'
-        />
+        /> */}
         <Text style={styles.label}>Image URL</Text>
         <TouchableOpacity>
           <View style={styles.button}>
+            <Text style={styles.imageText}>Choose Image</Text>
             <Image source={{ uri: "" }} style={styles.image} />
           </View>
         </TouchableOpacity>
@@ -125,9 +126,16 @@ const styles = StyleSheet.create({
     borderRadius: 8
   },
   button: {
+    position: "relative",
     backgroundColor: "#ddd",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    borderRadius: 5
+  },
+  imageText: {
+    position: "absolute",
+    zIndex: 1,
+    fontWeight: "bold"
   },
   image: {
     height: 50,
