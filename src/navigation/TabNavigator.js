@@ -47,11 +47,11 @@ const TabNavigator = () => {
         }}
       /> */}
       <Tab.Screen
-        name='Settings'
+        name='Profile'
         component={SettingsScreen}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name='settings-outline' size={size} color={color} />
+            <AntDesign name='profile' size={size} color={color} />
           )
         }}
       />
