@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import ChatScreen from "../screens/ChatScreen"
 import TabNavigator from "./TabNavigator"
 import Contacts from "../screens/ContactsScreen"
+import AddContacts from "../components/AddContacts"
 const Stack = createNativeStackNavigator()
 
 export const Navigator = () => {
@@ -22,6 +23,7 @@ export const Navigator = () => {
         />
         <Stack.Screen name='Chat' component={ChatScreen} />
         <Stack.Screen name='Contacts' component={Contacts} />
+        <Stack.Screen name='Add Contacts' component={AddContacts} />
       </Stack.Navigator>
     </NavigationContainer>
   )

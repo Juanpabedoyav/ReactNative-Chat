@@ -3,7 +3,7 @@ import { Auth } from "aws-amplify"
 const SettingsScreen = () => {
   return (
     <View style={styles.container}>
-      <Button title='Log Out' onPress={() => Auth.signOut()} />
+      <Button title='Log Out' color={"white"} onPress={() => Auth.signOut()} />
     </View>
   )
 }
@@ -12,7 +12,12 @@ export default SettingsScreen
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center"
+    position: "absolute",
+    bottom: 10,
+    left: 10,
+    padding: 5,
+    backgroundColor: "purple",
+    borderWidth: 1,
+    borderRadius: 8
   }
 })

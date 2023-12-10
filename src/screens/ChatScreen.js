@@ -8,14 +8,30 @@ import {
   Platform
 } from "react-native"
 import bg from "../../assets/images/BG.png"
-import messagesData from "../../assets/data/messages"
 import { InputBox } from "../components/InputBox"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { API } from "aws-amplify"
+import { getRoom, listMessages } from "../graphql/queries"
 const ChatScreen = () => {
   const route = useRoute()
   const navigation = useNavigation()
-
   const roomID = route.params.id
+  const [messageList, setMessageList] = useState([])
+
+  useEffect(() => {
+    const fetchMessages = async () => {
+      const messages = await API.graphql({
+        query: listMessages
+        // variables: {
+        //   filter: {
+        //     roomID: { eq: roomID }
+        //   }
+        // }
+      })
+      setMessageList(messages.data.listMessages.items)
+    }
+    fetchMessages()
+  }, [])
 
   useEffect(() => {
     navigation.setOptions({ title: route.params.name })
@@ -29,7 +45,7 @@ const ChatScreen = () => {
     >
       <ImageBackground source={bg} style={styles.bg}>
         <FlatList
-          data={messagesData}
+          data={messageList}
           renderItem={({ item }) => <Messages message={item} />}
           style={styles.list}
           inverted
