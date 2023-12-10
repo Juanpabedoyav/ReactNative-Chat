@@ -3,7 +3,7 @@
   "cognitoConfig": {
     "identityPoolName": "testAuthIdentityPool",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "chatro139f5781",
+    "resourceNameTruncated": "chatro71b6470b",
     "userPoolName": "chatRoom",
     "autoVerifiedAttributes": [
       "email"
@@ -30,9 +30,9 @@
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [],
     "userpoolClientReadAttributes": [],
-    "userpoolClientLambdaRole": "chatRo139f5781_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "chatRo71b6470b_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "139f5781",
+    "sharedId": "71b6470b",
     "resourceName": "chatRoom",
     "authSelections": "identityPoolAndUserPool",
     "serviceName": "Cognito",
