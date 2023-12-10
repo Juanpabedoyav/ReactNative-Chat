@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import { useState } from "react"
 import {
   Button,
   Image,
@@ -8,39 +8,38 @@ import {
   TouchableOpacity,
   View
 } from "react-native"
+import { Picker } from "@react-native-picker/picker"
 import { API, graphqlOperation } from "aws-amplify"
 import { createUser } from "../../graphql/mutations"
 import { useNavigation, useRoute } from "@react-navigation/native"
+import { TextInputComponent } from "react-native"
 const AddContacts = () => {
   const navigation = useNavigation()
 
   const [name, setName] = useState("")
-  const [phone, setPhone] = useState("")
-  const [email, setEmail] = useState("")
-  const [selectedImage, setSelectedImage] = useState(null)
+  // const [image, setImage] = useState(
+  //   "https://res.cloudinary.com/dflxhnzgs/image/upload/v1697164014/lmyffzunwh2ybybknnvk.jpg"
+  // )
+  const [status, setStatus] = useState("")
 
   const onPress = async () => {
-    const newContact = {
-      name,
-      phone,
-      email
-    }
-    // const createContact = await API.graphql({
-    //   query: createContact,
-    //   variables: {
-    //     input: {
-    //       newContact
-    //     }
-    //   }
-    // })
-    console.log(newContact)
+    await API.graphql({
+      query: createUser,
+      variables: {
+        input: {
+          name,
+          status,
+          image:
+            "https://res.cloudinary.com/dflxhnzgs/image/upload/v1697164014/lmyffzunwh2ybybknnvk.jpg"
+        }
+      }
+    })
     navigation.goBack()
-    console.log("Button Pressed")
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Add Contacts</Text>
+      <Text style={styles.title}>Add Contact</Text>
       <View style={styles.box}>
         <Text style={styles.label}>Name</Text>
         <TextInput
@@ -49,27 +48,26 @@ const AddContacts = () => {
           style={styles.input}
           placeholder='Enter a name'
         />
-        <Text style={styles.label}>Phone</Text>
+        <Text style={styles.label}>Status</Text>
         <TextInput
-          value={phone}
-          onChangeText={setPhone}
+          value={status}
+          onChangeText={setStatus}
           style={styles.input}
-          placeholder='Enter a phone number'
+          placeholder='Enter a status'
         />
-        {/* <Text style={styles.label}>Email</Text>
-        <TextInput
-          value={email}
-          onChangeText={setEmail}
-          style={styles.input}
-          placeholder='Enter an email'
-        /> */}
         <Text style={styles.label}>Image URL</Text>
         <TouchableOpacity>
           <View style={styles.button}>
             <Text style={styles.imageText}>Choose Image</Text>
-            <Image source={{ uri: "" }} style={styles.image} />
+            <Image
+              source={{
+                uri: "https://res.cloudinary.com/dflxhnzgs/image/upload/v1697164014/lmyffzunwh2ybybknnvk.jpg"
+              }}
+              style={styles.image}
+            />
           </View>
         </TouchableOpacity>
+
         <View style={styles.submit}>
           <Button color={"white"} onPress={onPress} title='Add Contact' />
         </View>
