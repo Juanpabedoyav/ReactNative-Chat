@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react"
-import { Button, StyleSheet, Text, TextInput, View } from "react-native"
+import {
+  Button,
+  Image,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from "react-native"
 import { API, graphqlOperation } from "aws-amplify"
 import { createUser } from "../../graphql/mutations"
 import { useNavigation, useRoute } from "@react-navigation/native"
@@ -9,6 +17,7 @@ const AddContacts = () => {
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
   const [email, setEmail] = useState("")
+  const [selectedImage, setSelectedImage] = useState(null)
 
   const onPress = async () => {
     const newContact = {
@@ -54,6 +63,12 @@ const AddContacts = () => {
           style={styles.input}
           placeholder='Enter an email'
         />
+        <Text style={styles.label}>Image URL</Text>
+        <TouchableOpacity>
+          <View style={styles.button}>
+            <Image source={{ uri: "" }} style={styles.image} />
+          </View>
+        </TouchableOpacity>
         <View style={styles.submit}>
           <Button color={"white"} onPress={onPress} title='Add Contact' />
         </View>
@@ -108,5 +123,14 @@ const styles = StyleSheet.create({
     backgroundColor: "purple",
     borderWidth: 1,
     borderRadius: 8
+  },
+  button: {
+    backgroundColor: "#ddd",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  image: {
+    height: 50,
+    borderRadius: 75
   }
 })
