@@ -1,12 +1,42 @@
 import { StatusBar } from "expo-status-bar"
-import { StyleSheet, Text, View } from "react-native"
-import ChatList from "./src/components/ChatList"
+import { StyleSheet, View } from "react-native"
+import { Navigator } from "./src/navigation"
+import { withAuthenticator } from "aws-amplify-react-native"
+import { Amplify, Auth, API } from "aws-amplify"
+import configAws from "./src/aws-exports"
+import { useEffect } from "react"
+import { getUser } from "./src/graphql/queries"
+import { createUser } from "./src/graphql/mutations"
+Amplify.configure({ ...configAws, Analytics: { disabled: true } })
+function App() {
+  useEffect(() => {
+    const syncUser = async () => {
+      const authUser = await Auth.currentAuthenticatedUser({
+        bypassCache: false
+      })
+      const user = await API.graphql({
+        query: getUser,
+        variables: { id: authUser.attributes.sub }
+      })
+      if (user.data.getUser) {
+        return
+      }
+      const newUser = {
+        id: authUser.attributes.sub,
+        name: "Me",
+        status: ""
+      }
+      API.graphql({
+        query: createUser,
+        variables: { input: newUser }
+      })
+    }
+    syncUser()
+  }, [])
 
-export default function App() {
   return (
     <View style={styles.container}>
-      <ChatList />
-      <ChatList />
+      <Navigator />
       <StatusBar style='auto' />
     </View>
   )
@@ -16,7 +46,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
     justifyContent: "center"
   }
 })
+
+export default withAuthenticator(App)

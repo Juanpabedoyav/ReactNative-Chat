@@ -1,26 +1,53 @@
-import { Text, View, Image, StyleSheet } from "react-native"
+import { Text, View, Image, StyleSheet, Pressable } from "react-native"
+import { useNavigation } from "@react-navigation/native"
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
+import { useEffect, useState } from "react"
+import { Auth } from "aws-amplify"
+dayjs.extend(relativeTime)
+export default function ChatList({ chat }) {
+  const navigation = useNavigation()
+  const [user, setUser] = useState(null)
 
-export default function ChatList() {
+  useEffect(() => {
+    const getUser = async () => {
+      const authUser = await Auth.currentAuthenticatedUser()
+      const userItem = chat.users.items.find(
+        (item) => item.user.id !== authUser.attributes.sub
+      )
+      // console.log(userItem)
+      setUser(userItem.user)
+    }
+    getUser()
+  }, [])
+  console.log(chat)
   return (
-    <View style={styles.container}>
+    <Pressable
+      onPress={() =>
+        navigation.navigate("Chat", { id: chat.id, name: user?.name })
+      }
+      style={styles.container}
+    >
       <Image
         source={{
-          uri: "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/lukas.jpeg"
+          uri: user?.image
         }}
         style={styles.image}
       />
       <View style={styles.content}>
         <View style={styles.row}>
           <Text numberOfLines={1} style={styles.name}>
-            Lukas
+            {user?.name}
           </Text>
-          <Text style={styles.subtitle}>7:00</Text>
+          <Text style={styles.subtitle}>
+            {dayjs(chat.lastMessage?.createdAt).fromNow(true)}
+          </Text>
         </View>
         <Text numberOfLines={2} style={styles.subtitle}>
-          Hey, how are you doing?
+          {chat.LastMessage?.text}
         </Text>
       </View>
-    </View>
+    </Pressable>
   )
 }
 
@@ -30,13 +57,14 @@ const styles = StyleSheet.create({
     alignItems: "stretch",
     marginHorizontal: 10,
     marginVertical: 5,
+    paddingVertical: 5,
     height: 70
   },
   content: {
     flex: 1,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: "lightgray",
-    marginLeft: 15
+    marginLeft: 10
   },
   row: {
     flexDirection: "row",
@@ -50,7 +78,7 @@ const styles = StyleSheet.create({
     color: "gray"
   },
   image: {
-    width: 70,
+    width: 66,
     aspectRatio: 1,
     marginRight: 10,
     borderRadius: 50
