@@ -8,7 +8,8 @@ type Room @model @auth(rules: [{allow: public}]) {
 type Message @model @auth(rules: [{allow: public}]) {
   id: ID!
   text: String!
-  roomID: ID! @index(name: "byRoom")
+  createdAt: AWSDateTime!
+  roomID: ID! @index(name: "byRoom", sortKeyFields: ["createdAt"], queryField: "messagesByRoom")
   userID: ID! @index(name: "byUser")
 }
 
