@@ -17,7 +17,8 @@ const ChatScreen = () => {
   const route = useRoute()
   const navigation = useNavigation()
   const roomID = route.params.id
-  const [chatRoom, setChatRoom] = useState([])
+  const [chatRoom, setChatRoom] = useState(null)
+  const [messages, setMessages] = useState([])
 
   useEffect(() => {
     API.graphql({
@@ -25,6 +26,11 @@ const ChatScreen = () => {
       variables: { id: roomID }
     }).then((result) => {
       setChatRoom(result.data?.getRoom)
+      setMessages(
+        result.data?.getRoom?.Messages?.items.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        )
+      )
     })
   }, [])
 
@@ -43,7 +49,7 @@ const ChatScreen = () => {
     >
       <ImageBackground source={bg} style={styles.bg}>
         <FlatList
-          data={chatRoom.Messages?.items}
+          data={messages}
           renderItem={({ item }) => <Messages message={item} />}
           style={styles.list}
           inverted
