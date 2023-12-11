@@ -9,7 +9,11 @@ export const getCurrentChatRoomWithUser = async (userId) => {
     variables: { id: authUser.attributes.sub }
   })
   const rooms = myChatRooms.data?.getUser?.Rooms.items
+  console.log(rooms, "rooms")
   // console.log(rooms[0].room.users.items[0].user.id)
+  if (!rooms) {
+    return
+  }
   const currentChatRoom = rooms.find((roomItem) => {
     return roomItem.room.users.items.some(
       (userItem) => userItem.user.id === userId

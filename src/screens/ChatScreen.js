@@ -5,7 +5,8 @@ import {
   StyleSheet,
   FlatList,
   KeyboardAvoidingView,
-  Platform
+  Platform,
+  ActivityIndicator
 } from "react-native"
 import bg from "../../assets/images/BG.png"
 import { InputBox } from "../components/InputBox"
@@ -16,27 +17,24 @@ const ChatScreen = () => {
   const route = useRoute()
   const navigation = useNavigation()
   const roomID = route.params.id
-  const [messageList, setMessageList] = useState([])
+  const [chatRoom, setChatRoom] = useState([])
 
   useEffect(() => {
-    const fetchMessages = async () => {
-      const messages = await API.graphql({
-        query: listMessages
-        // variables: {
-        //   filter: {
-        //     roomID: { eq: roomID }
-        //   }
-        // }
-      })
-      setMessageList(messages.data.listMessages.items)
-    }
-    fetchMessages()
+    API.graphql({
+      query: getRoom,
+      variables: { id: roomID }
+    }).then((result) => {
+      setChatRoom(result.data?.getRoom)
+    })
   }, [])
 
   useEffect(() => {
     navigation.setOptions({ title: route.params.name })
   }, [route.params.name])
 
+  if (!roomID) {
+    return <ActivityIndicator />
+  }
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS == "ios" ? "padding" : "height"}
@@ -45,12 +43,12 @@ const ChatScreen = () => {
     >
       <ImageBackground source={bg} style={styles.bg}>
         <FlatList
-          data={messageList}
+          data={chatRoom.Messages?.items}
           renderItem={({ item }) => <Messages message={item} />}
           style={styles.list}
           inverted
         />
-        <InputBox roomID={roomID} />
+        <InputBox room={chatRoom} />
       </ImageBackground>
     </KeyboardAvoidingView>
   )

@@ -3,25 +3,35 @@ import { StyleSheet, TextInput } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { AntDesign, MaterialIcons } from "@expo/vector-icons"
 import { API, Auth } from "aws-amplify"
-import { createMessage } from "../../graphql/mutations"
-export const InputBox = ({ roomID }) => {
+import { createMessage, updateRoom } from "../../graphql/mutations"
+export const InputBox = ({ room }) => {
   const [newMessage, setNewMessage] = useState("")
 
   const onSend = async () => {
-    console.warn("sending:", newMessage)
     const authUser = await Auth.currentAuthenticatedUser()
     const message = {
-      roomID,
+      roomID: room.id,
       userID: authUser.attributes.sub,
       text: newMessage
     }
 
-    await API.graphql({
+    const newMessageData = await API.graphql({
       query: createMessage,
       variables: { input: message }
     })
 
     setNewMessage("")
+
+    await API.graphql({
+      query: updateRoom,
+      variables: {
+        input: {
+          _version: room._version,
+          id: room.id,
+          roomLastMessageId: newMessageData.data.createMessage.id
+        }
+      }
+    })
   }
   return (
     <SafeAreaView edges={["bottom"]} style={styles.container}>

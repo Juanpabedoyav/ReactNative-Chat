@@ -10,7 +10,6 @@ const SettingsScreen = () => {
     }
     fetchUser()
   }, [])
-  console.log(currentUser)
   return (
     <View style={styles.container}>
       <Text>Profile</Text>

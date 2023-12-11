@@ -20,7 +20,7 @@ export default function ChatList({ chat }) {
     }
     getUser()
   }, [])
-
+  console.log(chat)
   return (
     <Pressable
       onPress={() =>
@@ -44,7 +44,7 @@ export default function ChatList({ chat }) {
           </Text>
         </View>
         <Text numberOfLines={2} style={styles.subtitle}>
-          {chat.lastMessage?.text}
+          {chat.LastMessage?.text}
         </Text>
       </View>
     </Pressable>

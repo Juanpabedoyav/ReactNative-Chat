@@ -23,8 +23,8 @@ function App() {
       }
       const newUser = {
         id: authUser.attributes.sub,
-        name: authUser.attributes.phone_number,
-        status: "Hey, I am using Messages App"
+        name: "Me",
+        status: ""
       }
       API.graphql({
         query: createUser,

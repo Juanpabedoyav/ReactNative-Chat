@@ -10,7 +10,7 @@ dayjs.extend(relativeTime)
 export default function ContactList({ user }) {
   const navigation = useNavigation()
   const onPress = async () => {
-    //check if a chat room already exists between the two users
+    // //check if a chat room already exists between the two users
     const existingChatRoom = await getCurrentChatRoomWithUser(user.id)
     if (existingChatRoom) {
       navigation.navigate("Chat", { id: existingChatRoom.id })
@@ -21,12 +21,13 @@ export default function ContactList({ user }) {
       query: createRoom,
       variables: { input: {} }
     })
+    // console.log(newChatRoomData, "new chat room data")
     if (!newChatRoomData.data.createRoom) {
       return
     }
-    // console.log(user.id, "user id")
-    // console.log(newChatRoomData.data.createRoom, "new chat room data id")
-    const newChatRoom = newChatRoomData.data.createRoom
+    // // // console.log(user.id, "user id")
+    // // // console.log(newChatRoomData.data.createRoom, "new chat room data id")
+    const newChatRoom = newChatRoomData?.data?.createRoom
 
     await API.graphql({
       query: createUserRoom,
